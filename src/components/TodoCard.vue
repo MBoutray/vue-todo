@@ -6,8 +6,8 @@
             <p class="column is-2 has-text-right">{{ taskAmount }}</p>
         </div>
         <div class="card-content">
-            <new-todo v-model="todoList" :value="todoList" ref="newTodo"></new-todo>
-            <todo-list v-model="todoList" :value="todoList" ref="todolist"></todo-list>
+            <new-todo></new-todo>
+            <todo-list></todo-list>
         </div>
         <div class="card-footer px-2 py-2" v-show="hasTasks">
             <button class="footer__delete-all button is-primary mr-1" @click.prevent="deleteAll">Tout supprimer</button>
@@ -19,44 +19,30 @@
 <script>
 import NewTodo from './NewTodo';
 import TodoList from './TodoList';
+import { mapMutations } from 'vuex';
+
 
 export default {
     props: {
         title: { type: String, default: '' }
     },
-    data() {
-        return {
-            todoList: [
-            ]
-        }
-    },
     methods: {
-        deleteTodo(todo) {
-            this.todoList.splice(this.todoList.findIndex(customElements => customElements === todo), 1)
-            this.$emit('input', this.todoList)
-        },
-        deleteAll() {
-            this.todoList = []
-            this.$emit('input', this.todoList)
-        },
-        deleteCompleted() {
-            this.todoList.forEach(todo => todo.completed ? this.deleteTodo(todo) : null)
-            this.$emit('input', this.todoList)
-        }
+        ...mapMutations({
+            deleteAll: 'deleteAllTasks',
+            deleteCompleted: 'deleteAllCompletedTasks'
+        })
     },
     computed: {
         date () {
             let newDate = new Date()
             return newDate.toLocaleDateString("fr-FR", { weekday: 'long', month: 'long', day: 'numeric' }).replace(/\w\S*/g, (w) => (w.replace(/^\w/, (c) => c.toUpperCase())))
         },
-        taskTotal() {
-            return this.todoList.length
-        },
         taskAmount() {
-            return this.taskTotal.toString().concat(' ', this.taskTotal > 1 ? 'tâches' : 'tâche')
+            let length = this.$store.getters.getLength
+            return length.toString().concat(' ', length > 1 ? 'tâches' : 'tâche')
         },
         hasTasks() {
-            return this.taskTotal > 0
+            return !this.$store.getters.isEmpty
         }
     },
     components: {

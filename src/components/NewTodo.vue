@@ -8,23 +8,14 @@
 
 <script>
 export default {
-    props: {
-        value: { type: Array, default() { return [] }}
-    },
     data() {
         return {
-            todos: this.value,
             newTodo: ''
-        }
-    },
-    watch: {
-        value(value) {
-            this.todos = value
         }
     },
     methods: {
         addTodo() {
-            this.todos.push({
+            this.$store.commit('addTask', {
                 id: this.currentId,
                 name: this.newTodo,
                 completed: false
@@ -37,8 +28,8 @@ export default {
     },
     computed: {
         currentId() {
-            let todoLength = this.todos.length
-            return todoLength > 0 ? this.todos[todoLength - 1].id + 1 : 1
+            let todoLength = this.$store.getters.getLength
+            return todoLength > 0 ? this.$store.state.todoList[todoLength - 1].id + 1 : 1
         }
     }
 }

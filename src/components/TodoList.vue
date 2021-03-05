@@ -1,7 +1,7 @@
 <template>
     <div>
         <transition-group class="" name="todo-list" tag="ul">
-            <li v-for="item in todos" :key="item.id" class="todo-list-item">
+            <li v-for="item in this.$store.state.todoList" :key="item.id" class="todo-list-item">
                 <input type="checkbox" v-model="item.completed" class="todo-list-item__completed">
                 <p class="todo-list-item__name" :class="{completed: item.completed}">{{ item.name }}</p>
                 <div class="move-items mr-3">
@@ -24,48 +24,28 @@
 </template>
 
 <script>
-export default {
-    props: {
-        value: { type: Array, default() { return [] }}
-    },
-    data() {
-        return {
-            todos: this.value
-        }
-    },
-    watch: {
-        value(value) {
-            this.todos = value
-        }
-    },
-    methods: {
-        deleteTodo(item) {
-            this.todos.splice(this.todos.findIndex(elem => elem === item), 1)
-            this.$emit('input', this.todos)    
-        },
-        isFirstTask(item) {
-            return this.todos.findIndex(elem => elem === item) === 0
-        },
-        isLastTask(item) {
-            return this.todos.findIndex(elem => elem === item) === this.todos.length - 1
-        },
-        moveTaskUp(item) {
-            let oldIndex = this.todos.findIndex(elem => elem === item);
-            let newIndex = oldIndex - 1
+import { mapMutations, mapGetters } from 'vuex';
 
-            this.todos.splice(newIndex, 0, this.todos.splice(oldIndex, 1)[0])
+export default {
+    methods: {
+        ...mapMutations({
+            deleteTodo: 'deleteTask'
+        }),
+        moveTaskUp(item) {
+            this.$store.commit('moveTask', item,  -1)
         },
         moveTaskDown(item) {
-            let oldIndex = this.todos.findIndex(elem => elem === item);
-            let newIndex = oldIndex + 1
-
-            this.todos.splice(newIndex, 0, this.todos.splice(oldIndex, 1)[0])
+            this.$store.commit('moveTask', item,  1)
         }
     },
     computed: {
         hasMoreThanOneTask() {
-            return this.todos.length > 1
-        }
+            return this.$store.getters.getLength > 1
+        },
+        ...mapGetters([
+            'isFirstTask',
+            'isLastTask'
+        ])
     }
 }
 </script>
