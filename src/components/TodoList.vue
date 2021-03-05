@@ -32,10 +32,10 @@ export default {
             deleteTodo: 'deleteTask'
         }),
         moveTaskUp(item) {
-            this.$store.commit('moveTask', item,  -1)
+            this.$store.commit('moveTask', {item, moveAmount: -1})
         },
         moveTaskDown(item) {
-            this.$store.commit('moveTask', item,  1)
+            this.$store.commit('moveTask', {item, moveAmount: 1})
         }
     },
     computed: {

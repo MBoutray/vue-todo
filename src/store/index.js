@@ -17,20 +17,14 @@ export default createStore({
     deleteAllCompletedTasks(state) {
       state.todoList.forEach(elem => elem.completed ? this.commit('deleteTask', elem) : null)
     },
-    moveTask(state, item, moveAmount) {
-      let currIndex = state.todoList.findIndex(elem => elem === item)
-      let destIndex = currIndex + moveAmount
+    moveTask(state, payload) {
+      let currIndex = state.todoList.findIndex(elem => elem === payload.item)
+      let destIndex = currIndex + payload.moveAmount
 
       if (destIndex >= 0 && destIndex < this.getters.getLength) {
-        state.todoList.splice(destIndex, 0, this.todos.splice(currIndex, 1)[0])
+        state.todoList.splice(destIndex, 0, state.todoList.splice(currIndex, 1)[0])
       }
     },
-    // isFirstTask(state, item) {
-    //   return state.todoList.findIndex(elem => elem === item) === 0
-    // },
-    // isLastTask(state, getters, item) {
-    //   return state.todoList.findIndex(elem => elem === item) === getters.getLength - 1
-    // }
   },
   getters: {
     isEmpty: (state, getters) => {
