@@ -21,7 +21,7 @@
           </nav>
       </header>
 
-      <main>
+      <main class="">
           <router-view></router-view>
       </main>
   </div>
