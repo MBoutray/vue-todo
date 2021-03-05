@@ -1,29 +1,29 @@
 
 <template>
   <div id="app">
-     <section class="hero is-warning is-bold is-fullheight">
-      <div class="hero-body">
-        <div class="container has-text-centered">
-          <h1 class="title">{{msg}}</h1>
-        </div>
-      </div>
+      <header>
+          <nav class="navbar" role="navigation" aria-label="main navigation">
+              <div class="navbar-brand">
+                  <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                      <span aria-hidden="true"></span>
+                      <span aria-hidden="true"></span>
+                      <span aria-hidden="true"></span>
+                  </a>
+              </div>
 
-      <div class="hero-foot">
-        <div class="container">
-          <div class="content has-text-centered pb-5">
-            <p>
-              <strong>Atelier Mars 2021</strong>
-            </p>
-            <p>
-              Découvrez comment styliser simplement votre ToDo list avec 
-              <a class="has-text-primary" href="https://bulma.io/">
-                <strong>Bulma</strong>
-              </a> 
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
+              <div class="navbar-menu">
+                  <div class="navbar-start">
+                      <router-link :to="{ name: 'Home'}" class="navbar-item">Accueil</router-link>
+                      <router-link :to="{ name: 'Qui sommes-nous'}" class="navbar-item">Qui sommes-nous?</router-link>
+                      <router-link :to="{ name: 'A propos'}" class="navbar-item">À propos</router-link>
+                  </div>
+              </div>
+          </nav>
+      </header>
+
+      <main>
+          <router-view></router-view>
+      </main>
   </div>
 </template>
 
