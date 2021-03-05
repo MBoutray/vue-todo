@@ -6,8 +6,8 @@
             <p class="column is-2 has-text-right">{{ taskAmount }}</p>
         </div>
         <div class="card-content">
-            <new-todo v-model="todoList" :value="todoList"></new-todo>
-            <todo-list v-model="todoList" :value="todoList"></todo-list>
+            <new-todo v-model="todoList" :value="todoList" ref="newTodo"></new-todo>
+            <todo-list v-model="todoList" :value="todoList" ref="todolist"></todo-list>
         </div>
         <div class="card-footer px-2 py-2" v-show="hasTasks">
             <button class="footer__delete-all button is-primary mr-1" @click.prevent="deleteAll">Tout supprimer</button>
